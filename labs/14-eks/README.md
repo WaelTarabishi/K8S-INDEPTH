@@ -2,47 +2,73 @@
 
 ## Objective
 
-Document the transition from local Kubernetes learning to managed Kubernetes on Amazon EKS.
-
-> Placeholder: Define the environment, target architecture, and scope of the EKS exercise.
+Understand how a learning workflow changes when moving from a local cluster to Amazon Elastic Kubernetes Service (EKS). This lab focuses on cluster creation, authentication, node groups, basic workload deployment, verification, and cleanup planning.
 
 ## Theory
 
-Summarize what EKS manages, what still remains the user's responsibility, and how cloud-managed Kubernetes differs from local lab environments.
-
-> Placeholder: Add notes on control plane management, worker nodes, IAM integration, networking, and cost considerations.
+Amazon EKS is a managed Kubernetes service where AWS operates the control plane, but the user still owns major parts of the environment such as worker nodes or Fargate configuration, VPC design, IAM integration, add-ons, cost control, and workload security. Compared with a local lab cluster, EKS adds cloud networking, cloud identity, billing, and regional availability concerns. The main learning goal is to understand which responsibilities move to AWS and which remain yours.
 
 ## Prerequisites
 
-- Placeholder: AWS account
-- Placeholder: AWS CLI
-- Placeholder: `kubectl`
-- Placeholder: EKS-related tooling such as `eksctl` or Terraform, if used
-- Placeholder: Basic VPC and IAM understanding
+- An AWS account with permission to create EKS, IAM, EC2, and VPC resources
+- AWS CLI installed and configured
+- `kubectl`
+- `eksctl` for a beginner-friendly provisioning path
+- Basic understanding of IAM, VPCs, and Kubernetes fundamentals
+- Awareness that EKS creates billable resources
 
 ## Lab Steps
 
-1. Placeholder: Define the provisioning approach
-2. Placeholder: Create the EKS cluster
-3. Placeholder: Configure local access
-4. Placeholder: Deploy a sample workload
-5. Placeholder: Validate networking, node groups, and cluster access
-6. Placeholder: Record cleanup steps
+1. Confirm AWS access and region configuration:
+   - `aws sts get-caller-identity`
+   - `aws configure list`
+2. Create an EKS cluster with a simple `eksctl` example:
+   - `eksctl create cluster --name k8s-indepth-eks --region us-east-1 --nodes 2`
+3. Update local kubeconfig and verify cluster access:
+   - `aws eks update-kubeconfig --name k8s-indepth-eks --region us-east-1`
+   - `kubectl get nodes`
+4. Deploy a basic workload to confirm scheduling and networking:
+   - `kubectl create deployment web --image=nginx:1.25`
+   - `kubectl expose deployment web --port=80 --target-port=80 --type=LoadBalancer`
+5. Inspect the cluster and supporting resources:
+   - `kubectl get pods -A`
+   - `eksctl get nodegroup --cluster k8s-indepth-eks --region us-east-1`
+6. Record cleanup steps so the lab does not continue incurring cost:
+   - `eksctl delete cluster --name k8s-indepth-eks --region us-east-1`
 
 ## Verification
 
-- Placeholder: `aws eks list-clusters`
-- Placeholder: `kubectl get nodes`
-- Placeholder: Validate workload deployment and service access
+- `aws eks list-clusters`
+- `kubectl get nodes`
+- `kubectl get pods -A`
+- `kubectl get svc`
 
 ## What I Learned
 
-- Placeholder: Differences between local and managed Kubernetes
-- Placeholder: Cloud-specific operational concerns
-- Placeholder: Topics to revisit before production use
+Expected outcomes after completing this lab:
+
+- I can explain what EKS manages and what I still need to manage myself.
+- I understand the additional networking, IAM, and cost considerations of a cloud-managed cluster.
+- I can connect `kubectl` to EKS and verify that a basic workload is running.
+
+## Interview Questions
+
+1. What parts of Kubernetes does Amazon EKS manage for you?
+2. What responsibilities remain with the user when running EKS?
+3. How does IAM relate to Kubernetes access in EKS?
+4. Why is VPC design important for an EKS cluster?
+5. What should you verify before leaving an EKS lab environment running?
+
+## Common Mistakes
+
+- Creating an EKS cluster without understanding the cost impact
+- Assuming a managed control plane means the rest of the platform is fully managed
+- Forgetting to update kubeconfig after cluster creation
+- Leaving node groups, load balancers, or entire clusters running after the lab
 
 ## References
 
-- Placeholder: Amazon EKS documentation
-- Placeholder: AWS IAM and VPC documentation
-- Placeholder: Repository EKS notes
+- Amazon EKS Documentation: https://docs.aws.amazon.com/eks/
+- Create an Amazon EKS Cluster: https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html
+- `eksctl` Documentation: https://eksctl.io/
+- AWS IAM Documentation: https://docs.aws.amazon.com/iam/

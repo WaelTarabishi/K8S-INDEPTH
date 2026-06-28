@@ -2,46 +2,69 @@
 
 ## Objective
 
-Document how the local Kubernetes cluster is created, configured, and prepared for the rest of the labs.
-
-> Placeholder: Add the target local environment, cluster type, and desired outcome.
+Set up a local Kubernetes cluster that can be reused for the rest of this learning repository. This lab teaches how to install the basic tooling, create a disposable cluster, and confirm that `kubectl` is talking to the correct environment.
 
 ## Theory
 
-Summarize the concepts needed before creating a cluster.
-
-> Placeholder: Cover local Kubernetes options, control plane basics, worker nodes, contexts, and why a disposable lab cluster is useful.
+Kubernetes runs workloads on a cluster made up of control plane components and worker nodes. The control plane stores cluster state and coordinates scheduling, while worker nodes run the actual containers. In a learning environment, a local cluster created with `kind` or Minikube is useful because it is fast to recreate, cheap to run, and safe to break. `kubectl` connects to clusters through a kubeconfig file, so understanding contexts early prevents accidental commands against the wrong cluster.
 
 ## Prerequisites
 
-- Placeholder: Operating system requirements
-- Placeholder: Container runtime
-- Placeholder: `kubectl`
-- Placeholder: kind or Minikube
-- Placeholder: Basic command-line familiarity
+- A machine with virtualization or container support and at least 4 GB of available memory
+- A container runtime such as Docker Desktop, Docker Engine, or Podman
+- `kubectl` installed and available in `PATH`
+- A local cluster tool such as `kind` or Minikube
+- Basic terminal familiarity
 
 ## Lab Steps
 
-1. Placeholder: Install required tooling
-2. Placeholder: Create a local cluster
-3. Placeholder: Confirm the Kubernetes context
-4. Placeholder: Inspect cluster nodes
-5. Placeholder: Save any configuration files used for cluster creation
+1. Install and verify the required tools:
+   - `kubectl version --client`
+   - `kind version` or `minikube version`
+2. Create a local cluster. A simple `kind` example is:
+   - `kind create cluster --name k8s-indepth`
+3. Confirm that your current kubeconfig context points to the new cluster:
+   - `kubectl config current-context`
+4. Inspect the cluster and system workloads:
+   - `kubectl cluster-info`
+   - `kubectl get nodes -o wide`
+   - `kubectl get pods -n kube-system`
+5. Record how to clean up the environment when finished:
+   - `kind delete cluster --name k8s-indepth`
 
 ## Verification
 
-- Placeholder: `kubectl cluster-info`
-- Placeholder: `kubectl get nodes -o wide`
-- Placeholder: `kubectl config current-context`
+- `kubectl cluster-info`
+- `kubectl get nodes -o wide`
+- `kubectl get pods -n kube-system`
+- `kubectl config current-context`
 
 ## What I Learned
 
-- Placeholder: Key takeaways from cluster setup
-- Placeholder: Issues encountered and how they were resolved
-- Placeholder: Commands worth remembering
+Expected outcomes after completing this lab:
+
+- I can explain the difference between the control plane and worker nodes.
+- I can create and remove a local Kubernetes cluster safely.
+- I can verify that `kubectl` is pointed at the intended cluster before continuing with other labs.
+
+## Interview Questions
+
+1. What is the role of the Kubernetes control plane?
+2. What is stored in a kubeconfig file?
+3. Why is a local cluster useful for learning Kubernetes?
+4. What is the difference between a node and a Pod?
+5. How do you confirm that `kubectl` is targeting the correct cluster?
+
+## Common Mistakes
+
+- Running `kubectl` commands without checking the active context
+- Treating a local cluster as if it behaves exactly like a cloud-managed cluster
+- Ignoring system Pods in `kube-system` when troubleshooting startup issues
+- Deleting the cluster before exporting or saving any useful configuration notes
 
 ## References
 
-- Placeholder: Kubernetes official documentation
-- Placeholder: kind or Minikube documentation
-- Placeholder: Personal notes or supporting articles
+- Kubernetes Overview: https://kubernetes.io/docs/concepts/overview/
+- Install and Set Up `kubectl`: https://kubernetes.io/docs/tasks/tools/
+- kind Documentation: https://kind.sigs.k8s.io/
+- Minikube Documentation: https://minikube.sigs.k8s.io/docs/

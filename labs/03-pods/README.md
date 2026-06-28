@@ -2,44 +2,66 @@
 
 ## Objective
 
-Learn how Pods are defined, scheduled, and inspected as the smallest deployable unit in Kubernetes.
-
-> Placeholder: Define the container image and Pod-level features to test.
+Understand Pods as the smallest deployable unit in Kubernetes. This lab teaches how to create a standalone Pod, inspect its lifecycle, and troubleshoot it with `kubectl`.
 
 ## Theory
 
-Explain what a Pod is, how containers share network and storage namespaces, and how Pod lifecycle differs from higher-level controllers.
-
-> Placeholder: Add notes about restart policy, lifecycle phases, and multi-container Pod patterns.
+A Pod is a wrapper around one or more tightly coupled containers that share the same network namespace, IP address, and optional storage volumes. Pods are scheduled onto nodes as a single unit. A standalone Pod is useful for learning, debugging, or short-lived tasks, but long-running applications are usually managed by higher-level controllers such as Deployments. Pod lifecycle states such as `Pending`, `Running`, `Succeeded`, and `Failed` help explain what the scheduler and kubelet are doing.
 
 ## Prerequisites
 
-- Placeholder: Running Kubernetes cluster
-- Placeholder: `kubectl`
-- Placeholder: Access to a simple container image
+- A running Kubernetes cluster
+- `kubectl`
+- Basic familiarity with containers and images
 
 ## Lab Steps
 
-1. Placeholder: Create a Pod manifest
-2. Placeholder: Apply the Pod
-3. Placeholder: Inspect Pod status and events
-4. Placeholder: View container logs
-5. Placeholder: Delete and recreate the Pod
+1. Create a namespace for the lab:
+   - `kubectl create namespace pods-lab`
+2. Create a standalone Pod:
+   - `kubectl run demo-pod --image=nginx:1.25 --restart=Never -n pods-lab`
+3. Watch the Pod move through its lifecycle:
+   - `kubectl get pods -n pods-lab -w`
+4. Inspect details and events:
+   - `kubectl describe pod demo-pod -n pods-lab`
+5. View logs and access the container:
+   - `kubectl logs demo-pod -n pods-lab`
+   - `kubectl exec -it demo-pod -n pods-lab -- sh`
+6. Delete and recreate the Pod to observe that it is not self-healing without a controller:
+   - `kubectl delete pod demo-pod -n pods-lab`
 
 ## Verification
 
-- Placeholder: `kubectl get pods`
-- Placeholder: `kubectl describe pod <name>`
-- Placeholder: `kubectl logs <pod-name>`
+- `kubectl get pod demo-pod -n pods-lab -o wide`
+- `kubectl describe pod demo-pod -n pods-lab`
+- `kubectl logs demo-pod -n pods-lab`
+- `kubectl exec demo-pod -n pods-lab -- hostname`
 
 ## What I Learned
 
-- Placeholder: Pod lifecycle insights
-- Placeholder: Common failure signals in `describe` output
-- Placeholder: Differences between direct Pods and controller-managed Pods
+Expected outcomes after completing this lab:
+
+- I can explain what a Pod is and why Kubernetes schedules it as a unit.
+- I can inspect Pod events, logs, and status fields during troubleshooting.
+- I understand why standalone Pods are usually replaced by controllers for real workloads.
+
+## Interview Questions
+
+1. What is a Pod in Kubernetes?
+2. Why do containers inside the same Pod share a network namespace?
+3. What is the difference between a Pod and a container?
+4. What happens if a standalone Pod is deleted?
+5. Which `kubectl` commands are most useful when a Pod is not starting?
+
+## Common Mistakes
+
+- Using standalone Pods for applications that should be controller-managed
+- Assuming a deleted Pod will be recreated automatically
+- Ignoring the `Events` section in `kubectl describe`
+- Confusing container logs with Pod status information
 
 ## References
 
-- Placeholder: Kubernetes Pod documentation
-- Placeholder: Container lifecycle references
-- Placeholder: Related notes from this repository
+- Pods: https://kubernetes.io/docs/concepts/workloads/pods/
+- Pod Lifecycle: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/
+- Debug Running Pods: https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/
