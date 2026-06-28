@@ -49,10 +49,20 @@ Expected outcomes after completing this lab:
 ## Interview Questions
 
 1. What problem do namespaces solve in Kubernetes?
+   - They logically isolate and organize resources within the same cluster, making multi-team and multi-environment management easier.
 2. Which Kubernetes resources are cluster-scoped?
+   - Examples include Nodes, Namespaces, PersistentVolumes (PV), ClusterRoles, and ClusterRoleBindings.
 3. How do namespaces relate to RBAC?
+   - RBAC can grant permissions limited to a specific namespace, allowing users to access only the resources in that namespace.
 4. What is the difference between the `default` namespace and a custom namespace?
+   - The `default` namespace is created automatically and used when no namespace is specified. A custom namespace is created by users to organize and isolate workloads.
 5. How do you make `kubectl` use a namespace by default?
+
+- Run:
+  ```bash
+  kubectl config set-context --current --namespace=learning
+  ```
+  This sets the default namespace for the current context.
 
 ## Common Mistakes
 
