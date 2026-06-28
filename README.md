@@ -112,17 +112,17 @@ K8S-INDEPTH/
 
 ### Kubernetes Learning Progress
 
-- [ ] Local cluster bootstrap workflow completed
-- [ ] Namespaces lab completed
-- [ ] Pods lab completed
-- [ ] ReplicaSets lab completed
-- [ ] Deployments lab completed
-- [ ] Services lab completed
-- [ ] Networking lab completed
-- [ ] ConfigMaps lab completed
-- [ ] Secrets lab completed
-- [ ] Volumes lab completed
-- [ ] Ingress lab completed
+- [x] Local cluster bootstrap workflow completed
+- [x] Namespaces lab completed
+- [x] Pods lab completed
+- [x] ReplicaSets lab completed
+- [x] Deployments lab completed
+- [x] Services lab completed
+- [x] Networking lab completed
+- [x] ConfigMaps lab completed
+- [x] Secrets lab completed
+- [x] Volumes lab completed
+- [x] Ingress lab completed
 - [ ] Helm lab completed
 - [ ] Gateway API lab completed
 - [ ] EKS lab completed
@@ -175,14 +175,14 @@ Install the following tools before running the labs:
 
 ## Current Scope
 
-This repository is intentionally documentation-first at this stage. It currently focuses on structure, study notes, and lab scaffolding. Kubernetes manifests will be added gradually as concepts are practiced, rather than generated in bulk without validation.
+This repository now covers the Kubernetes learning path from cluster setup through ingress with supporting notes, labs, and validated manifests. The next scope is expanding into Helm, Gateway API, and EKS while keeping the repository practice-driven and progressively documented.
 
 ## Future Goals
 
 - Expand each lab with validated commands, expected outputs, and troubleshooting notes
 - Add architecture diagrams for core control plane and networking concepts
 - Record comparisons between local clusters and managed Kubernetes services
-- Add Helm chart exercises and Gateway API examples after the fundamentals are complete
+- Add Helm chart exercises and Gateway API examples as the next major learning stages
 - Document EKS-specific operational considerations and lessons learned
 
 ## Contributing
